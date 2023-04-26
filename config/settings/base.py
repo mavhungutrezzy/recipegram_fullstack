@@ -80,6 +80,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "recipegram_fullstack.users",
     "recipegram_fullstack.recipes",
+    "recipegram_fullstack.favorites",
+    "recipegram_fullstack.follows",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
