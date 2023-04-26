@@ -15,7 +15,10 @@ urlpatterns = [
     # User management
     path("users/", include("recipegram_fullstack.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+    
+    # Recipe management
+    path("recipes/", include("recipes.urls", namespace="recipes")),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
