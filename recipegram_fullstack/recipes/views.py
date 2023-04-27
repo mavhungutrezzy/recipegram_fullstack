@@ -21,15 +21,16 @@ def index(request):
 
 @login_required
 def create(request):
+    form = RecipeForm(request.POST, request.FILES)
     if request.method == "POST":
-        form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.save()
+            form.save_m2m()
             return JsonResponse({"url": recipe.get_absolute_url()})
         return JsonResponse({"errors": form.errors}, status=400)
-    return render(request, "recipes/create.html")
+    return render(request, "recipes/create.html", {"form": form})
 
 
 def detail(request, recipe_id):
@@ -40,13 +41,14 @@ def detail(request, recipe_id):
 @login_required
 def edit(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
+    form = RecipeForm(request.POST, request.FILES, instance=recipe)
     if request.method == "POST":
-        form = RecipeForm(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
             form.save()
             return JsonResponse({"url": recipe.get_absolute_url()})
         return JsonResponse({"errors": form.errors}, status=400)
-    return render(request, "recipes/edit.html", {"recipe": recipe})
+    context = {"form": form}
+    return render(request, "recipes/edit.html", context)
 
 
 @login_required

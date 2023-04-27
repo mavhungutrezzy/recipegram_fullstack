@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h1 class="mb-4">Create Recipe</h1>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create Recipe</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

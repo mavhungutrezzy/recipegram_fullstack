@@ -1,13 +1,13 @@
 /* These styles are generated from project.scss. */
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 
 @font-face {
-  font-family: 'CustomFont';
-  src: url("/static/fonts/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7(3).woff2")
+  font-family: "CustomFont";
+  src: url("/static/fonts/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7(3).woff2");
 }
 
 body {
-  font-family: 'CustomFont', "Georgia";
+  font-family: "CustomFont", "Georgia";
   font-size: 16px;
   line-height: 1.5;
   color: #333;
@@ -20,12 +20,32 @@ body {
   object-fit: cover;
 }
 
-
-.navbar-brand {
-  font-family: 'Pacifico', cursive;
-  font-size:x-large
+.recipe-title {
+  color: #7ec3c1;
+  text-decoration: none;
 }
 
+.recipe-badge {
+  background-color: #f3969a;
+  color: white;
+}
+
+.meal-type-btn {
+  background-color: #7ec3c1;
+  border-color: #7ec3c1;
+  color: white;
+}
+
+.meal-type-btn:hover {
+  background-color: #5a9b99;
+  border-color: #5a9b99;
+}
+
+
+.navbar-brand {
+  font-family: "Pacifico", cursive;
+  font-size: x-large;
+}
 
 .alert-debug {
   color: black;
