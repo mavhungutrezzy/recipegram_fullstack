@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% for recipe in page_obj %}
+        <div class="col-lg-4 pb-4" id="recipe-card">
+            <div class="card h-100">
+                <a href=""><img class="card-img-top" src="https://simply-delicious-food.com/wp-content/uploads/2021/06/Crispy-chicken-thighs-with-caper-sauce-1-150x150.jpg" alt="{{recipe.title}}"></a>
+                <div class="card-body">
+                    <h5 class="card-title"><a href="">{{ recipe.title }} </a></h5>
+                    <p class="card-text">
+                      <span id="">Time:</span>
+                    </p>
+                    <p class="card-text">
+                      <span id="">Type:</span>
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-truncate">
+                    <span class="badge rounded-pill bg-secondary">#{{recipe.tags}}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
