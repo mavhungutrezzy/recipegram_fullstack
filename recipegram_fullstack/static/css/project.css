@@ -30,6 +30,18 @@ body {
   color: white;
 }
 
+.meal-type-btn {
+  background-color: #7ec3c1;
+  border-color: #7ec3c1;
+  color: white;
+}
+
+.meal-type-btn:hover {
+  background-color: #5a9b99;
+  border-color: #5a9b99;
+}
+
+
 .navbar-brand {
   font-family: "Pacifico", cursive;
   font-size: x-large;

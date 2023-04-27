@@ -2,20 +2,42 @@
 
 {% block content %}
 <div class="container">
+
+  <div class="row mb-4">
+    <div class="col">
+      <div class="btn-group" role="group" aria-label="Meal Type">
+        <button type="button" class="btn btn-secondary rounded-circle me-2 meal-type-btn" data-meal-type="breakfast">B</button>
+        <button type="button" class="btn btn-secondary rounded-circle me-2 meal-type-btn" data-meal-type="lunch">L</button>
+        <button type="button" class="btn btn-secondary rounded-circle meal-type-btn" data-meal-type="dinner">D</button>
+      </div>
+    </div>
+  </div>
+
     <div class="row">
         {% for recipe in page_obj %}
         <div class="col-lg-4 pb-4" id="recipe-card">
             <div class="card h-100">
                 <a href=""><img class="card-img-top recipe-img" src="https://theflavoursofkitchen.com/wp-content/uploads/2021/08/Thai-Red-Curry-1-768x1117.jpg" alt="{{recipe.title}}"></a>
                 <div class="card-body">
-                    <h5 class="card-title" ><a class="recipe-title" href="">{{ recipe.title }} </a></h5>
+                    <h5 class="card-title" ><a class="recipe-title" href="{% url "recipes:detail" recipe.id %}">{{ recipe.title }} </a></h5>
                     <p class="card-text">
-                      <span id="">Time: {{recipe.cook_time }} </span>
                     </p>
                     <p class="card-text">
-                      <span id="">Type: {{recipe.meal_type }} </span>
+                      {% comment %} person icon and name {% endcomment %}
+                      <i class="bi bi-person"></i>
+                      <span id=""><a href="" class="text-secondary" style="text-decoration:none">{{recipe.author}}</a></span>
+
                     </p>
-                </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="" class="btn btn-sm btn-outline-secondary">Add to Cart</a>
+                        </div>
+                        <div class="btn-group">
+                            <a href="" class="btn btn-sm btn-outline-secondary"><i class="bi bi-heart"></i></a>
+                        </div>
+                    </div>
+
+                  </div>
                 <div class="card-footer text-muted text-truncate">
                     <span class="badge rounded-pill recipe-badge">#{{recipe.tags}}</span>
                 </div>
