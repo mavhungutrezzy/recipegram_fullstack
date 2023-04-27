@@ -8,16 +8,16 @@
             <div class="card h-100">
                 <a href=""><img class="card-img-top recipe-img" src="https://theflavoursofkitchen.com/wp-content/uploads/2021/08/Thai-Red-Curry-1-768x1117.jpg" alt="{{recipe.title}}"></a>
                 <div class="card-body">
-                    <h5 class="card-title"><a href="">{{ recipe.title }} </a></h5>
+                    <h5 class="card-title" ><a class="recipe-title" href="">{{ recipe.title }} </a></h5>
                     <p class="card-text">
-                      <span id="">Time:</span>
+                      <span id="">Time: {{recipe.cook_time }} </span>
                     </p>
                     <p class="card-text">
-                      <span id="">Type:</span>
+                      <span id="">Type: {{recipe.meal_type }} </span>
                     </p>
                 </div>
                 <div class="card-footer text-muted text-truncate">
-                    <span class="badge rounded-pill bg-secondary">#{{recipe.tags}}</span>
+                    <span class="badge rounded-pill recipe-badge">#{{recipe.tags}}</span>
                 </div>
             </div>
         </div>
