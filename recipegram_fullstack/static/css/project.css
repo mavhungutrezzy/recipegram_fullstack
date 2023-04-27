@@ -1,5 +1,19 @@
 /* These styles are generated from project.scss. */
 
+@font-face {
+  font-family: 'CustomFont';
+  src: url("/static/fonts/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7(3).woff2")
+}
+
+body {
+  font-family: 'CustomFont', "Georgia";
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fff;
+}
+
+
 .alert-debug {
   color: black;
   background-color: white;
