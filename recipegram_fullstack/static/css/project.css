@@ -41,6 +41,11 @@ body {
   border-color: #5a9b99;
 }
 
+.shopping-list-card-image {
+  max-height: 150px;
+  object-fit: cover;
+}
+
 
 .navbar-brand {
   font-family: "Pacifico", cursive;

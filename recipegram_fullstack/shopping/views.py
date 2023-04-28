@@ -55,4 +55,5 @@ def download_shopping_list(request):
                 item.recipe.ingredients,
             ]
         )
+
     return response

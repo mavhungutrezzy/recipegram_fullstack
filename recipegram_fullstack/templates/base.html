@@ -17,6 +17,8 @@
     <!-- Your stuff: Third-party CSS libraries go here -->
     {% comment %} Bootstrap Icons CDN {% endcomment %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+    {% comment %} Toastr CSS {% endcomment %}
+    <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
 
     <!-- This file stores project-specific CSS -->
     {% compress css %}
@@ -30,7 +32,8 @@
       <!-- Bootstrap JS -->
       <script defer src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <!-- Your stuff: Third-party javascript libraries go here -->
-
+      {% comment %} Toastr JS {% endcomment %}
+      <script src="assets/plugins/global/plugins.bundle.js"></script>
       <!-- place project specific Javascript in this file -->
       {% compress js %}
       <script defer src="{% static 'js/project.js' %}"></script>
@@ -65,8 +68,10 @@
                   <a class="nav-link" href="{% url "recipes:create" %}">Create recipe</a>
                 </li>
                 <li class="nav-item position-relative">
-                  <a class="nav-link" href="#">Shopping list
-                    <span class="badge bg-primary rounded-pill">2</span>
+                  <a class="nav-link" href="{% url "shopping:list" %}">Shopping list
+                    <span class="badge bg-primary rounded-pill">
+                      {{ user.shopping_lists.count }}
+                    </span>
                   </a>
                 </li>
               {% endif %}
