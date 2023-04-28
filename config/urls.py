@@ -16,6 +16,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     # Recipe management
     path("", include("recipes.urls", namespace="recipes")),
+    path("favorites/", include("favorites.urls", namespace="favorites")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

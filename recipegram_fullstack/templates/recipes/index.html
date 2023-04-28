@@ -33,8 +33,13 @@
                             <a href="" class="btn btn-sm btn-outline-secondary">Add to Cart</a>
                         </div>
                         <div class="btn-group">
-                            <a href="" class="btn btn-sm btn-outline-secondary"><i class="bi bi-heart"></i></a>
-                        </div>
+                          {% if recipe not in favorites %}
+                              <a href="{% url 'favorites:remove' recipe.id %}" class="btn btn-sm btn-danger favorite-btn" data-recipe-id="{{ recipe.id }}"><i class="bi bi-heart-fill"></i></a>
+                          {% else %}
+                              <a href="{% url 'favorites:add' recipe.id %}" class="btn btn-sm btn-outline-secondary favorite-btn" data-recipe-id="{{ recipe.id }}"><i class="bi bi-heart"></i></a>
+                          {% endif %}
+                      </div>
+
                     </div>
 
                   </div>
@@ -46,4 +51,43 @@
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+
+{% block inline_javascript%}
+<script>
+  $(document).ready(function() {
+    $(".favorite-btn").click(function(event) {
+      event.preventDefault();
+      var recipe_id = $(this).attr("data-recipe-id");
+      var url = $(this).attr("href");
+      var btn = $(this);
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+          recipe_id: recipe_id,
+          csrfmiddlewaretoken: "{{ csrf_token }}"
+        },
+        success: function(response) {
+          if (btn.hasClass("btn-outline-secondary")) {
+            btn.removeClass("btn-outline-secondary");
+            btn.addClass("btn-danger");
+            btn.find("i").removeClass("bi-heart");
+            btn.find("i").addClass("bi-heart-fill");
+          } else {
+            btn.removeClass("btn-danger");
+            btn.addClass("btn-outline-secondary");
+            btn.find("i").removeClass("bi-heart-fill");
+            btn.find("i").addClass("bi-heart");
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+    });
+  });
+  </script>
 {% endblock %}
