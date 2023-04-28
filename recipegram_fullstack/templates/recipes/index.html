@@ -38,10 +38,8 @@
                           {% else %}
                               <a href="{% url 'favorites:add' recipe.id %}" class="btn btn-sm btn-outline-secondary favorite-btn" data-recipe-id="{{ recipe.id }}"><i class="bi bi-heart"></i></a>
                           {% endif %}
-                      </div>
-
+                        </div>
                     </div>
-
                   </div>
                 <div class="card-footer text-muted text-truncate">
                     <span class="badge rounded-pill recipe-badge">#{{recipe.tags}}</span>
