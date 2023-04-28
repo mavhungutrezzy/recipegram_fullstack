@@ -17,6 +17,7 @@ urlpatterns = [
     # Recipe management
     path("", include("recipes.urls", namespace="recipes")),
     path("favorites/", include("favorites.urls", namespace="favorites")),
+    path("shopping/", include("shopping.urls", namespace="shopping")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

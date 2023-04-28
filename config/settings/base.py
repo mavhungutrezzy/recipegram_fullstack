@@ -82,6 +82,7 @@ LOCAL_APPS = [
     "recipegram_fullstack.recipes",
     "recipegram_fullstack.favorites",
     "recipegram_fullstack.follows",
+    "recipegram_fullstack.shopping",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -270,7 +271,9 @@ ACCOUNT_FORMS = {"signup": "recipegram_fullstack.users.forms.UserSignupForm"}
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "recipegram_fullstack.users.adapters.SocialAccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
-SOCIALACCOUNT_FORMS = {"signup": "recipegram_fullstack.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_FORMS = {
+    "signup": "recipegram_fullstack.users.forms.UserSocialSignupForm"
+}
 # django-compressor
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation
