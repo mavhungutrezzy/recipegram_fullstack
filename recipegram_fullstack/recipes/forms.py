@@ -10,61 +10,56 @@ class RecipeForm(forms.ModelForm):
             "title",
             "description",
             "image",
+            "tags",
+            "meal_type",
             "ingredients",
             "instructions",
-            "tags",
+            "servings",
+            "prep_time_in_minutes",
+            "cook_time_in_minutes",
+            "total_time",
         ]
 
-        labels = {
-            "title": "Recipe Title",
-            "description": "Description",
-            "image": "Image",
-            "ingredients": "Ingredients",
-            "instructions": "Instructions",
-            "tags": "Tags",
-        }
-
-        widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "description": forms.Textarea(attrs={"class": "form-control"}),
-            "image": forms.ClearableFileInput(attrs={"class": "form-control"}),
-            "ingredients": forms.Textarea(attrs={"class": "form-control"}),
-            "instructions": forms.Textarea(attrs={"class": "form-control"}),
-            "tags": forms.Select(attrs={"class": "form-control"}),
-        }
-
+    title = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={"class": "form-control"})
+    )
+    image = forms.ImageField(
+        widget=forms.ClearableFileInput(attrs={"class": "form-control"})
+    )
+    tags = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple, choices=TAGS_CHOICES
+    )
+    meal_type = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple, choices=MEAL_TYPE_CHOICES
+    )
+    ingredients = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    instructions = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
     servings = forms.IntegerField(
-        label="Servings",
-        min_value=1,
-        widget=forms.NumberInput(attrs={"class": "form-control"}),
+        widget=forms.NumberInput(attrs={"class": "form-control"})
     )
-
-    preparation_time = forms.IntegerField(
-        label="Preparation Time (in minutes)",
-        min_value=0,
-        widget=forms.NumberInput(attrs={"class": "form-control"}),
+    prep_time_in_minutes = forms.IntegerField(
+        widget=forms.NumberInput(attrs={"class": "form-control"})
     )
-
-    cook_time = forms.IntegerField(
-        label="Cook Time (in minutes)",
-        min_value=0,
-        widget=forms.NumberInput(attrs={"class": "form-control"}),
+    cook_time_in_minutes = forms.IntegerField(
+        widget=forms.NumberInput(attrs={"class": "form-control"})
     )
-
     total_time = forms.IntegerField(
-        label="Total Time (in minutes)",
-        min_value=0,
-        widget=forms.NumberInput(attrs={"class": "form-control"}),
+        widget=forms.NumberInput(attrs={"class": "form-control"})
     )
 
-    meal_type = forms.ChoiceField(
-        label="Meal Type",
-        choices=MEAL_TYPE_CHOICES,
-        widget=forms.Select(attrs={"class": "form-control"}),
-    )
+    def clean_ingredients(self):
+        if ingredients := self.cleaned_data.get("ingredients"):
+            return ingredients.split(",")
+        else:
+            raise forms.ValidationError("Please enter ingredients for the recipe")
 
-    tags = forms.ChoiceField(
-        label="Tags",
-        choices=TAGS_CHOICES,
-        widget=forms.Select(attrs={"class": "form-control"}),
-    )
+    def clean_instructions(self):
+        if instructions := self.cleaned_data.get("instructions"):
+            return instructions.split(",")
+        else:
+            raise forms.ValidationError("Please enter instructions for the recipe")

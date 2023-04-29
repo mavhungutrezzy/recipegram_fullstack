@@ -17,7 +17,7 @@
         {% for recipe in page_obj %}
         <div class="col-lg-4 pb-4" id="recipe-card">
             <div class="card h-100">
-                <a href=""><img class="card-img-top recipe-img" src="https://theflavoursofkitchen.com/wp-content/uploads/2021/08/Thai-Red-Curry-1-768x1117.jpg" alt="{{recipe.title}}"></a>
+                <a href=""><img class="card-img-top recipe-img" src="{{ recipe.image.url }}" alt="{{recipe.title}}"></a>
                 <div class="card-body">
                     <h5 class="card-title" ><a class="recipe-title" href="{% url "recipes:detail" recipe.id %}">{{ recipe.title }} </a></h5>
                     <p class="card-text">
