@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -15,7 +16,7 @@ User = get_user_model()
 def index(request):
     recipes = Recipe.objects.all().order_by("-created_at")
     favorites = request.user.favorites.all()
-    paginator = Paginator(recipes, 6)
+    paginator = Paginator(recipes, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {"page_obj": page_obj, "favorites": favorites}
@@ -31,7 +32,8 @@ def create(request):
             recipe.author = request.user
             recipe.save()
             form.save_m2m()
-            return JsonResponse({"url": recipe.get_absolute_url()})
+            messages.success(request, "Recipe created successfully!")
+            return render(request, "recipes/create.html", {"form": RecipeForm()})
         return JsonResponse({"errors": form.errors}, status=400)
     return render(request, "recipes/create.html", {"form": form})
 
@@ -48,7 +50,8 @@ def edit(request, recipe_id):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            return JsonResponse({"url": recipe.get_absolute_url()})
+            messages.success(request, "Recipe updated successfully!")
+            return render(request, "recipes/edit.html", {"form": form})
         return JsonResponse({"errors": form.errors}, status=400)
     context = {"form": form}
     return render(request, "recipes/edit.html", context)

@@ -42,7 +42,11 @@
                     </div>
                   </div>
                 <div class="card-footer text-muted text-truncate">
-                    <span class="badge rounded-pill recipe-badge">#{{recipe.tags}}</span>
+                      {% for tag in recipe.tags %}
+                        <span class="badge rounded-pill recipe-badge">
+                            <a href="" class="text-decoration-none text-white">#{{ tag }}</a>
+                        </span>
+                      {% endfor %}
                 </div>
             </div>
         </div>
