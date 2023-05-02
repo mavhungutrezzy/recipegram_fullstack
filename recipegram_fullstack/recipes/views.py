@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_POST
 
 from .forms import RecipeForm
@@ -12,9 +13,10 @@ from .models import Recipe
 User = get_user_model()
 
 
+@cache_page(60 * 15)
 def index(request):
     recipes = Recipe.objects.all().order_by("-created_at")
-    paginator = Paginator(recipes, 8)
+    paginator = Paginator(recipes, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {"page_obj": page_obj}
