@@ -17,8 +17,7 @@ def add_to_shopping_list(request, recipe_id):
         message = "Recipe added to shopping list!"
     else:
         message = "Recipe already in shopping list."
-    data = {"message": message}
-    return JsonResponse(data)
+    return JsonResponse({"message": message})
 
 
 @login_required

@@ -13,7 +13,7 @@ from .models import Recipe
 User = get_user_model()
 
 
-@cache_page(60 * 15)
+# @cache_page(60 * 3)
 def index(request):
     recipes = Recipe.objects.all().order_by("-created_at")
     paginator = Paginator(recipes, 12)
@@ -24,6 +24,7 @@ def index(request):
 
 
 @login_required
+@cache_page(60 * 10)
 def create(request):
     form = RecipeForm(request.POST, request.FILES)
     if request.method == "POST":
