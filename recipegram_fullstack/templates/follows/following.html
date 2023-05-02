@@ -2,29 +2,63 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <h2>Authors You're Following</h2>
-        <ul class="list-group">
-          {% for author in page_obj %}
-          <li class="list-group-item d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-              <img src="https://www.eatingwell.com/thmb/YxkWBfh2AvNYrDKoHukRdmRvD5U=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/article_291139_the-top-10-healthiest-foods-for-kids_-02-4b745e57928c4786a61b47d8ba920058.jpg" alt="{{ author.username }}'s avatar" class="me-3 rounded-circle" width="50" height="50">
-              <div>
-                <h5>
-                  <a href="">mavhungutrezzy</a>
-                </h5>
-                <p>
-                  Im a food blogger and food lover
-                </p>
-              </div>
-            </div>
-            <a href="" class="btn btn-danger">Unfollow</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+  <h1 class="display-4  mb-4">Subsriptions</h1>
+  {% for follows in page_obj%}
+  <div class="row">
+    <div class="col-md-6 details">
+      <blockquote>
+        <h5>{{follows.following.username}}</h5>
+        <small><cite title="Source Title">
+          Im a food lover and I love to cook. I like to share my recipes, mainly desserts, but I also like to share main dishes and appetizers. <br>
+          <i class="icon-map-marker"></i></cite></small>
+      </blockquote>
+      <p>
+        {{ follows.following.bio }}
+      </p>
     </div>
   </div>
+  <div class="row mb-5">
+    <div class="col-12 col-sm-4">
+      <div class="card emphasis">
+          <div class="card-body text-center">
+              <h2 class="card-title"><strong>
+                {{follows.following.followers.all|length}}
+              </strong></h2>
+              <p class="card-text"><small>Followers</small></p>
+              {% if follows.following.username in following %}
+                <a href="{% url "follows:unfollow" follows.following.username %}" class="btn btn-outline-success btn-block"><span class="bi bi-person-plus"></span> Follow</a>
+              {% else %}
+                <a href="{% url "follows:follow" follows.following.username %}" class="btn btn-outline-success btn-block"><span class="bi bi-person-plus"></span> Follow</a>
+              {% endif %}
+              </div>
+      </div>
+  </div>
+  <div class="col-12 col-sm-4">
+      <div class="card emphasis">
+          <div class="card-body text-center">
+              <h2 class="card-title"><strong>
+                {{follows.following.following.all|length}}
+              </strong></h2>
+              <p class="card-text"><small>Following</small></p>
+              <button class="btn btn-outline-info btn-block"><span class="bi bi-person-check"></span> Following</button>
+          </div>
+      </div>
+  </div>
+  <div class="col-12 col-sm-4">
+    <div class="card emphasis">
+        <div class="card-body text-center">
+            <h2 class="card-title"><strong>
+              {{follows.following.recipes.all|length}}
+            </strong></h2>
+            <p class="card-text"><small>Recipes</small></p>
+            <a href="{% url "follows:user_recipes" follows.following.username %}" class="btn btn-outline-primary btn-block">View Recipe</a>
+
+        </div>
+    </div>
+  </div>
+
+</div>
+  {% endfor %}
+</div>
 
 {% endblock content %}

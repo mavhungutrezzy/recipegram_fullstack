@@ -2,41 +2,47 @@
 
 {% block content%}
 
-<div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <h2>Recipe List</h2>
-        <ul class="list-group">
-          {% for shopping in page_obj %}
-          <li class="list-group-item d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-              <img src="https://www.eatingwell.com/thmb/YxkWBfh2AvNYrDKoHukRdmRvD5U=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/article_291139_the-top-10-healthiest-foods-for-kids_-02-4b745e57928c4786a61b47d8ba920058.jpg" alt="{{ author.username }}'s avatar" class="me-3 rounded-circle" width="50" height="50">
-              <div>
-                <h5>
-                  <a href="">
-                    {{ shopping.recipe.title }}
-                  </a>
-                </h5>
-                <p>
-                    <span><i class="bi bi-person"></i> {{ shopping.recipe.author }}</span>
-                </p>
-              </div>
-            </div>
-            <a href="" class="btn btn-danger">{{ shopping.id }}</a>
-          </li>
-          {% endfor %}
-        </ul>
+<div class="container mb-5">
+
+  <h1 class="display-4  mb-4">Shopping List</h1>
+
+
+    {% for shopping in page_obj%}
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{{shopping.recipe.image.url}}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <blockquote>
+              <h5>{{shopping.recipe.title}}</h5>
+              <small><cite title="Source Title">
+                {% for meal_type in shopping.recipe.meal_type %}
+                {{meal_type}},
+                {% endfor %}
+                <i class="icon-map-marker"></i></cite></small>
+            </blockquote>
+            <p>
+              {% for ingredient in shopping.recipe.ingredients.all %}
+              {{ingredient.name}},
+              {% endfor %}
+            </p>
+            <a href="{% url "shopping:remove" shopping.id %}" class="btn btn-outline-secondary">Remove</a>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="row mt-3">
-      <div class="col-md-8">
-        <a href="{% url 'shopping:download' %}" class="btn btn-primary">Download</a>
-      </div>
-    </div>
 
+    {% endfor %}
+    <dic class="row">
+      {% comment %} download button {% endcomment %}
+      <div class="col-12">
+        <a href="{% url 'shopping:download' %}" class="btn btn-outline-secondary">Download List <i class="bi bi-download"></i></a>
+      </div>
   </div>
-
+</div>
 
 
 {% endblock content%}

@@ -1,11 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from recipes.models import Recipe
 
 from .models import Follow
+
+User = get_user_model()
 
 
 @login_required
@@ -52,7 +54,7 @@ def following(request):
 @login_required
 def user_recipes(request, username):
     user = get_object_or_404(User, username=username)
-    recipes = Recipe.objects.filter(user=user).order_by("-created_at")
+    recipes = Recipe.objects.filter(author=user).order_by("-created_at")
     paginator = Paginator(recipes, 6)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)

@@ -185,6 +185,8 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "recipegram_fullstack.users.context_processors.allauth_settings",
+                "follows.context_processors.following",
+                "favorites.context_processors.favorites",
             ],
         },
     }

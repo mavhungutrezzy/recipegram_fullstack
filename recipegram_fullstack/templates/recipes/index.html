@@ -23,17 +23,16 @@
                     <p class="card-text">
                     </p>
                     <p class="card-text">
-                      {% comment %} person icon and name {% endcomment %}
                       <i class="bi bi-person"></i>
-                      <span id=""><a href="" class="text-secondary" style="text-decoration:none">{{recipe.author}}</a></span>
+                      <span id=""><a href="{% url "follows:user_recipes" recipe.author %}" class="text-secondary" style="text-decoration:none">{{recipe.author}}</a></span>
 
                     </p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <a href="{% url "shopping:add" recipe.id %}" class="btn btn-sm btn-outline-secondary">Add to Cart</a>
+                            <a href="{% url "shopping:add" recipe.id %}" class="btn btn-sm btn-outline-success add">Add to Cart</a>
                         </div>
                         <div class="btn-group">
-                          {% if recipe not in favorites %}
+                          {% if recipe in favorites %}
                               <a href="{% url 'favorites:remove' recipe.id %}" class="btn btn-sm btn-danger favorite-btn" data-recipe-id="{{ recipe.id }}"><i class="bi bi-heart-fill"></i></a>
                           {% else %}
                               <a href="{% url 'favorites:add' recipe.id %}" class="btn btn-sm btn-outline-secondary favorite-btn" data-recipe-id="{{ recipe.id }}"><i class="bi bi-heart"></i></a>

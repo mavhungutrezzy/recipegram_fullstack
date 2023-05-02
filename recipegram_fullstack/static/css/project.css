@@ -52,6 +52,19 @@ body {
   font-size: x-large;
 }
 
+.add-to-list-btn {
+  background-color: #7ec3c1;
+  color: #2b7573;
+  border-color: #7ec3c1;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.add-to-list-btn:hover {
+  background-color: #5e9c99;
+  color: white;
+}
+
+
 .alert-debug {
   color: black;
   background-color: white;

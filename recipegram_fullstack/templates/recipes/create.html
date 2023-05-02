@@ -4,11 +4,11 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-8">
-      <h1 class="mb-4">Create Recipe</h1>
+      <h1 class="display-4  mb-4">Create recipe</h1>
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Create Recipe</button>
+        <button type="submit" class="btn btn-outline-primary">Create Recipe</button>
       </form>
     </div>
   </div>

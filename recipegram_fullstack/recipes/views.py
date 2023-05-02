@@ -12,14 +12,12 @@ from .models import Recipe
 User = get_user_model()
 
 
-@login_required
 def index(request):
     recipes = Recipe.objects.all().order_by("-created_at")
-    favorites = request.user.favorites.all()
     paginator = Paginator(recipes, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {"page_obj": page_obj, "favorites": favorites}
+    context = {"page_obj": page_obj}
     return render(request, "recipes/index.html", context)
 
 
