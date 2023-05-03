@@ -6,8 +6,7 @@ Recipegram is a web application for sharing and discovering recipes. It allows u
 [![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 ## Screenshot
-![](https://i.ibb.co/wr6Tsc7/Screenshot-from-2023-05-02-16-48-20.png)
-![](https://i.ibb.co/VDkpNky/Screenshot-from-2023-05-02-16-49-01.png)
+![](https://i.ibb.co/q5KLFrq/Screenshot-from-2023-05-03-16-31-00.png)
 
 License: MIT
 
