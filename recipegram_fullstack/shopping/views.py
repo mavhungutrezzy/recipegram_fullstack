@@ -12,11 +12,8 @@ from .models import ShoppingList
 @login_required
 def add_to_shopping_list(request, recipe_id):
     recipe = get_object_or_404(Recipe, pk=recipe_id)
-    created = ShoppingList.objects.get_or_create(user=request.user, recipe=recipe)
-    if created:
-        message = "Recipe added to shopping list!"
-    else:
-        message = "Recipe already in shopping list."
+    ShoppingList.objects.get_or_create(user=request.user, recipe=recipe)
+    message = "Recipe added to shopping list!"
     return JsonResponse({"message": message})
 
 
@@ -31,7 +28,9 @@ def remove_from_shopping_list(request, recipe_id):
 
 @login_required
 def shopping_list(request):
-    shopping_list = ShoppingList.objects.all().order_by("-created_at")
+    shopping_list = ShoppingList.objects.filter(user=request.user).order_by(
+        "-created_at"
+    )
     paginator = Paginator(shopping_list, 6)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -45,14 +44,8 @@ def download_shopping_list(request):
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = 'attachment; filename="shopping_list.csv"'
     writer = csv.writer(response)
-    writer.writerow(["title", "description", "ingredients"])
+    writer.writerow(["Title", "Ingredients", "Created at"])
     for item in shopping_list:
-        writer.writerow(
-            [
-                item.recipe.title,
-                item.recipe.description,
-                item.recipe.ingredients,
-            ]
-        )
+        writer.writerow([item.recipe.title, item.recipe.ingredients, item.created_at])
 
     return response

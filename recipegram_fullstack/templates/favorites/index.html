@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
 
-  <h1 class="display-4  mb-4">Favorites</h1>
+  <h1 class="display-6  mb-4">Favorites</h1>
 
   {% comment %} <div class="row mb-4">
     <div class="col">
@@ -15,44 +15,45 @@
     </div>
   </div> {% endcomment %}
 
+    {% comment %} Row display list of cards {% endcomment %}
     <div class="row">
         {% for favorite in page_obj %}
         <div class="col-lg-4 pb-4" id="recipe-card">
-            <div class="card h-100">
-                <a href=""><img class="card-img-top recipe-img" src="{{favorite.recipe.image.url}}" alt="{{favorite.recipe.title}}"></a>
-                <div class="card-body">
-                    <h5 class="card-title" ><a class="recipe-title" href="">{{ favorite.recipe.title }} </a></h5>
-                    <p class="card-text">
-                    </p>
-                    <p class="card-text">
-                      {% comment %} person icon and name {% endcomment %}
-                      <i class="bi bi-person"></i>
-                      <span id=""><a href="" class="text-secondary" style="text-decoration:none">{{favorite.recipe.author}}</a></span>
-
-                    </p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="" class="btn btn-sm btn-outline-secondary">Add to Cart</a>
-                        </div>
-                        <div class="btn-group">
-                          {% if favorite.recipe in favorites %}
-                              <a href="{% url 'favorites:remove' favorite.recipe.id %}" class="btn btn-sm btn-danger favorite-btn" data-recipe-id="{{ recipe.id }}"><i class="bi bi-heart-fill"></i></a>
-                          {% else %}
-                              <a href="{% url 'favorites:add' favorite.recipe.id %}" class="btn btn-sm btn-outline-secondary favorite-btn" data-recipe-id="{{ recipe.id }}"><i class="bi bi-heart"></i></a>
-                          {% endif %}
-                        </div>
-                    </div>
-
-                  </div>
-                <div class="card-footer text-muted text-truncate">
-                  {% for tag in favorite.recipe.tags %}
-                  <span class="badge rounded-pill recipe-badge">
-                      <a href="" class="text-decoration-none text-white">#{{ tag }}</a>
-                  </span>
-                {% endfor %}
+          <div class="card h-100 recipe-card">
+            <a href=""><img class="card-img-top recipe-img" src="{{ favorite.recipe.image.url }}" alt="{{favorite.recipe.title}}"></a>
+            <div class="card-body">
+              <h5 class="card-title"><a class="recipe-title" href="{% url "recipes:detail" favorite.recipe.id %}">{{ favorite.recipe.title }} </a></h5>
+              <p class="card-text"></p>
+              <p class="card-text">
+                <i class="bi bi-person"></i>
+                <span class="recipe-author"><a href="{% url "follows:user_recipes" favorite.recipe.author %}" class="text-secondary" style="text-decoration:none">{{favorite.recipe.author}}</a></span>
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <form id="add-to-cart-form" action="{% url 'shopping:add' favorite.recipe.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="recipe_id" value="{{ .favorite.recipe.id }}">
+                    <button class="btn btn-sm btn-outline-success add" onclick="addToShoppingList(event)">Add to Cart</button>
+                  </form>
                 </div>
+                <div class="btn-group">
+                  <form action="{% url 'recipes:detail' favorite.recipe.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="recipe_id" value="{{ favorite.recipe.id }}">
+                    <button href="{% url 'favorites:remove' favorite.recipe.id %}" class="btn btn-sm favorite-btn"><i class="bi bi-heart-fill"></i></button>
+                  </form>
+                </div>
+              </div>
             </div>
-        </div>
+            <div class="card-footer text-muted text-truncate">
+              {% for tag in favorite.recipe.tags %}
+                <span class="badge rounded-pill recipe-badge">
+                  <a href="" class="text-decoration-none text-white">#{{ tag }}</a>
+                </span>
+              {% endfor %}
+            </div>
+          </div>
+      </div>
         {% endfor %}
     </div>
 </div>

@@ -1,47 +1,21 @@
 {% extends "base.html" %}
 
+<!-- This template displays a list of recipes. -->
+
+{% block title %}Recipes{% endblock %}
+
+{% block inline_css%}
+
+{% endblock %}
+
+
 {% block content %}
 <div class="container">
+  <!-- Row for recipe cards -->
   <div class="row">
     {% for recipe in page_obj %}
     <div class="col-lg-4 pb-4" id="recipe-card">
-      <style>
-        .card {
-          border-radius: 10px;
-          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .recipe-img {
-          height: 200px;
-          object-fit: cover;
-          border-radius: 10px 10px 0px 0px;
-        }
-
-        .recipe-title {
-          color: #212529;
-          text-decoration: none;
-        }
-
-        .recipe-author {
-          color: #6c757d;
-        }
-
-        .recipe-badge {
-          background-color: #6c757d;
-        }
-
-        .favorite-btn {
-          opacity: 0.5;
-          border: none;
-        }
-
-        .favorite-btn:hover {
-          color: red;
-          opacity: 1;
-        }
-        </style>
-
-        <div class="card h-100">
+        <div class="card h-100 recipe-card">
           <a href=""><img class="card-img-top recipe-img" src="{{ recipe.image.url }}" alt="{{recipe.title}}"></a>
           <div class="card-body">
             <h5 class="card-title"><a class="recipe-title" href="{% url "recipes:detail" recipe.id %}">{{ recipe.title }} </a></h5>
@@ -51,23 +25,36 @@
               <span class="recipe-author"><a href="{% url "follows:user_recipes" recipe.author %}" class="text-secondary" style="text-decoration:none">{{recipe.author}}</a></span>
             </p>
             <div class="d-flex justify-content-between align-items-center">
+              <!-- Button group for add to cart and favorite buttons -->
               <div class="btn-group">
-                <form id="add-to-cart-form" action="{% url 'shopping:add' recipe.id %}" method="POST">
+                <!-- Add to cart form -->
+                <form id="add-to-cart-form" action="{% url "shopping:add" recipe.id %}" method="POST">
                   {% csrf_token %}
                   <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
-                  <button class="btn btn-sm btn-outline-success add" onclick="addToShoppingList(event)">Add to Cart</button>
-                </form>
+                  {% if recipe in shopping_list %}
+                    <button class="btn btn-sm btn-outline-success add disabled" onclick="addToShoppingList(event)">Added</button>
+                  {% else %}
+                    <button class="btn btn-sm btn-outline-success add" onclick="addToShoppingList(event)">Add to Shopping list</button>
+                  {% endif %}
+                  </form>
               </div>
               <div class="btn-group">
-                <form action="{% url 'recipes:detail' recipe.id %}" method="POST">
+                <!-- Favorite button -->
+                <form action="{% url 'favorites:add' recipe.id %}" method="POST">
                   {% csrf_token %}
                   <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
-                  <button href="{% url 'favorites:remove' recipe.id %}" class="btn btn-sm favorite-btn"><i class="bi bi-heart-fill"></i></button>
+                  <!-- If recipe is in favorites, display filled heart, else display empty heart -->
+                  {% if recipe in favorites %}
+                    <button href="{% url 'favorites:remove' recipe.id %}" class="btn btn-sm favorite-btn" onclick="removeFromFavorite(event)" ><i class="bi bi-heart-fill"></i></button>
+                  {% else %}
+                    <button href="{% url 'favorites:add' recipe.id %}" class="btn btn-sm favorite-btn-empty" onclick="addToFavorite(event)"><i class="bi bi-heart"></i></button>
+                  {% endif %}
                 </form>
               </div>
             </div>
           </div>
           <div class="card-footer text-muted text-truncate">
+            <!-- Display tags -->
             {% for tag in recipe.tags %}
               <span class="badge rounded-pill recipe-badge">
                 <a href="" class="text-decoration-none text-white">#{{ tag }}</a>
@@ -75,13 +62,13 @@
             {% endfor %}
           </div>
         </div>
-
     </div>
     {% endfor %}
   </div>
 
   <div class="row m-3">
     <div class="col">
+      <!-- Pagination -->
         <div class="d-flex justify-content-center">
           <nav aria-label="Page navigation example">
             <ul class="pagination">
@@ -124,50 +111,108 @@
           </nav>
         </div>
     </div>
-
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-      <div id="cart-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <strong class="me-auto">Added to Cart</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-          The recipe has been added to your cart.
-        </div>
-      </div>
-    </div>
 </div>
 {% endblock %}
 
 
+{% block toast %}
+<!-- Toast for adding to cart -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="cart-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body bg-light border">
+      <p class="mb-0">The recipe has been added to your cart.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast for adding to favorites -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="favorite-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body bg-light border">
+      <p class="mb-0">The recipe has been added to your favorites.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast for removing from favorites -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="unfavorite-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body bg-light border">
+      <p class="mb-0">The recipe has been removed from your favorites.</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
 {% block inline_javascript%}
+
+{% comment %} on add to cart click display toast {% endcomment %}
 <script>
-  function addToShoppingList(event) {
-    event.preventDefault();
-    const form = document.getElementById('add-to-cart-form');
-    const recipeId = form.querySelector('input[name="recipe_id"]').value;
-    const csrfToken = form.querySelector('input[name="csrfmiddlewaretoken"]').value;
-    fetch(`/shopping/add/${recipeId}/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken,
-      },
-      body: JSON.stringify({
-        recipe_id: recipeId,
-      }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data['success']) {
-        console.log("data['success'] is true");
-        var toast = new bootstrap.Toast(document.getElementById('cart-toast'));
-        toast.show();
-      }
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+  function addToShoppingList(e) {
+    e.preventDefault();
+    var toastElList = [].slice.call(document.getElementById('cart-toast'))
+    var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl)
     });
+    toastList.forEach(toast => toast.show());
+    e.currentTarget.blur();
+    e.currentTarget.classList.add("disabled");
+    e.currentTarget.innerHTML = "Added";
+
+    // submit form without page reload
+    var form = e.currentTarget.parentElement;
+    var formData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", form.action, true);
+    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+    xhr.send(formData);
   }
+
+  function addToFavorite(e) {
+    e.preventDefault();
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl)
+    });
+    toastList.forEach(toast => toast.show());
+    e.currentTarget.blur();
+    e.currentTarget.classList.remove("favorite-btn-empty");
+    e.currentTarget.classList.add("favorite-btn");
+    e.currentTarget.innerHTML = '<i class="bi bi-heart-fill"></i>';
+
+    // submit form without page reload
+    var form = e.currentTarget.parentElement;
+    var formData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", form.action, true);
+    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+    xhr.send(formData);
+  }
+
+  function removeFromFavorite(e) {
+    e.preventDefault();
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl)
+    });
+    toastList.forEach(toast => toast.show());
+    e.currentTarget.blur();
+    e.currentTarget.classList.remove("favorite-btn");
+    e.currentTarget.classList.add("favorite-btn-empty");
+    e.currentTarget.innerHTML = '<i class="bi bi-heart"></i>';
+
+    // submit form without page reload
+    var form = e.currentTarget.parentElement;
+    var formData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", form.action, true);
+    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+    xhr.send(formData);
+  }
+
 </script>
+
+
 {% endblock %}

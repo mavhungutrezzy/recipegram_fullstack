@@ -6,8 +6,12 @@
   src: url("/static/fonts/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7(3).woff2");
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
 body {
-  font-family: "CustomFont", "Georgia";
+  /* font-family: "CustomFont", "Georgia"; */
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
@@ -75,4 +79,66 @@ body {
   color: #b94a48;
   background-color: #f2dede;
   border-color: #eed3d7;
+}
+
+.recipe-card {
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.recipe-img {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.recipe-title {
+  color: #212529;
+  text-decoration: none;
+}
+
+.recipe-author {
+  color: #6c757d;
+}
+
+.recipe-badge {
+  background-color: #6c757d;
+}
+
+.favorite-btn {
+  color: red;
+  opacity: 1;
+  border: none;
+}
+
+.favorite-btn-empty:hover {
+  color: red;
+  opacity: 1;
+}
+
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.profile-email {
+  font-size: 1rem;
+}
+
+.profile-bio {
+  font-size: 0.8rem;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.btn-sm {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  margin-top: 10px;
 }

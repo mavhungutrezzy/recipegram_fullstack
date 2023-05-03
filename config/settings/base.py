@@ -187,6 +187,7 @@ TEMPLATES = [
                 "recipegram_fullstack.users.context_processors.allauth_settings",
                 "follows.context_processors.following",
                 "favorites.context_processors.favorites",
+                "shopping.context_processors.shopping_lists",
             ],
         },
     }

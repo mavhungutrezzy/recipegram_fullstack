@@ -1,48 +1,32 @@
 {% extends "base.html" %}
 
-{% block content%}
+{% block content %}
 
-<div class="container mb-5">
+<div class="container my-5">
+  <h1 class="display-4 mb-4">Shopping List</h1>
+{% for shopping in page_obj %}
+<div class="row">
+  <div class="col-md-6">
+    <img src="{{ shopping.recipe.image.url }}" alt="" class="rounded-circle float-start me-3 profile-img">
+    <h5 class="profile-name">{{ shopping.recipe.title }}</h5>
+    <p class="profile-email">{{ shopping.recipe.description }}</p>
+    {% comment %} delete button at far end {% endcomment %}
+    <form action="{% url 'shopping:remove' shopping.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger btn-sm">
+        <i class="bi bi-trash me-2"></i>Delete
+      </button>
 
-  <h1 class="display-4  mb-4">Shopping List</h1>
-
-
-    {% for shopping in page_obj%}
-    <div class="card mb-3" style="max-width: 540px;">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="{{shopping.recipe.image.url}}" class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <blockquote>
-              <h5>{{shopping.recipe.title}}</h5>
-              <small><cite title="Source Title">
-                {% for meal_type in shopping.recipe.meal_type %}
-                {{meal_type}},
-                {% endfor %}
-                <i class="icon-map-marker"></i></cite></small>
-            </blockquote>
-            <p>
-              {% for ingredient in shopping.recipe.ingredients.all %}
-              {{ingredient.name}},
-              {% endfor %}
-            </p>
-            <a href="{% url "shopping:remove" shopping.id %}" class="btn btn-outline-secondary">Remove</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    {% endfor %}
-    <dic class="row">
-      {% comment %} download button {% endcomment %}
-      <div class="col-12">
-        <a href="{% url 'shopping:download' %}" class="btn btn-outline-secondary">Download List <i class="bi bi-download"></i></a>
-      </div>
   </div>
 </div>
+{% endfor %}
 
-
-{% endblock content%}
+  <div class="row">
+    <div class="col-12 text-center">
+      <a href="{% url 'shopping:download' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-download me-2"></i>Download List
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

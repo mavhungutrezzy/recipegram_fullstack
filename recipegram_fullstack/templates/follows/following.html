@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-  <h1 class="display-4  mb-4">Subsriptions</h1>
+  <h1 class="display-6  mb-4">Subsriptions</h1>
   {% for follows in page_obj%}
   <div class="row">
     <div class="col-md-6 details">
@@ -52,13 +52,10 @@
             </strong></h2>
             <p class="card-text"><small>Recipes</small></p>
             <a href="{% url "follows:user_recipes" follows.following.username %}" class="btn btn-outline-primary btn-block">View Recipe</a>
-
         </div>
     </div>
   </div>
-
 </div>
   {% endfor %}
 </div>
-
 {% endblock content %}

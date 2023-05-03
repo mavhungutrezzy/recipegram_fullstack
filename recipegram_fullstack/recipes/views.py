@@ -13,7 +13,7 @@ from .models import Recipe
 User = get_user_model()
 
 
-# @cache_page(60 * 3)
+# @cache_page(60 * 10)
 def index(request):
     recipes = Recipe.objects.all().order_by("-created_at")
     paginator = Paginator(recipes, 12)

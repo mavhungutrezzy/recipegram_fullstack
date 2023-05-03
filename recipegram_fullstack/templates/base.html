@@ -44,8 +44,8 @@
   </head>
 
   <body>
-
     <div class="mb-1">
+      <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-light border-bottom px-5 mb-5">
         <div class="container-fluid">
           <a class="navbar-brand text-primary" href="/">Recipegram</a>
@@ -53,6 +53,8 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Navbar links -->
+            <!-- If user is authenticated, show links to favorites, follows, create recipe, and shopping list -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
                 <a class="nav-link" href="{% url "recipes:index" %}">Recipes</a>
@@ -76,6 +78,7 @@
                 </li>
               {% endif %}
             </ul>
+            <!-- If user is authenticated, show dropdown menu with links to profile, settings, and logout -->
             {% if user.is_authenticated %}
               <div class="dropdown">
                 <span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -88,6 +91,7 @@
                   <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
                 </ul>
               </div>
+            <!--- If user is not authenticated, show links to login and register -->
             {% else %}
               <a href="{% url 'account_login' %}" class="btn btn-outline-secondary">Log In</a>
               <a href="{% url 'account_signup' %}" class="btn btn-outline-secondary ms-3">Register</a>
@@ -95,12 +99,10 @@
           </div>
         </div>
       </nav>
-
-
     </div>
 
     <div class="container">
-
+      <!-- Display alert messages -->
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -111,12 +113,26 @@
       {% endif %}
 
       {% block content %}
+          <!-- Content goes here -->
         <p>Use this document as a way to quick start any new project.</p>
       {% endblock content %}
 
     </div> <!-- /container -->
 
-    {% block modal %}{% endblock modal %}
+    {% block inline_css %}
+    {% comment %}
+    Style tags with only CSS, no src.
+    {% endcomment %}
+    {% endblock inline_css %}
+
+
+    {% block modal %}
+    <!-- Modal  goes here -->
+    {% endblock modal %}
+
+    {% block toast %}
+    <!-- Toast goes here -->
+    {% endblock toast %}
 
     {% block inline_javascript %}
     {% comment %}
@@ -133,8 +149,6 @@
       <small>&copy; 2023 Recipegram</small>
       <small><p>Created by <a href="https://github.com/mavhungutrezzy" target="_blank">mavhungutrezzy</a></p></small>
     </footer>
-
-
 
   </body>
 </html>
